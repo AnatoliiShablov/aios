@@ -9,6 +9,10 @@ add_library(endian STATIC
   endian.cpp
 )
 
+add_library(error_code STATIC
+  error_code.h
+  error_code.cpp
+)
 
 include(TestBigEndian)
 
