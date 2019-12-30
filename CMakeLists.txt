@@ -14,6 +14,11 @@ add_library(error_code STATIC
   error_code.cpp
 )
 
+add_library(address_v4 STATIC
+  address_v4.h
+  address_v4.cpp
+)
+
 include(TestBigEndian)
 
 TEST_BIG_ENDIAN(BIGENDIAN)
