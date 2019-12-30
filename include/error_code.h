@@ -16,7 +16,16 @@ public:
   constexpr error_code(uint32_t ec) noexcept : data_{ec} {}
   constexpr error_code(error_code const &other) noexcept : data_{other.data_} {}
 
-  [[nodiscard]] std::string_view message() const;
+  [[nodiscard]] constexpr std::string_view message() const {
+    switch (data_) {
+    case NO_ERRORS:
+      return "No errors";
+    case BAD_ADDRESS_CONVERTATION:
+      return "Bad address convertation";
+    default:
+      return "No such error";
+    }
+  }
 
 private:
   uint32_t data_;
