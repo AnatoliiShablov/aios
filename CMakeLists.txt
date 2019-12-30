@@ -5,18 +5,18 @@ project(aios LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 
 add_library(endian STATIC
-  endian.h
-  endian.cpp
+  include/endian.h
+  src/endian.cpp
 )
 
 add_library(error_code STATIC
-  error_code.h
-  error_code.cpp
+  include/error_code.h
+  src/error_code.cpp
 )
 
 add_library(address_v4 STATIC
-  address_v4.h
-  address_v4.cpp
+  include/address_v4.h
+  src/address_v4.cpp
 )
 
 include(TestBigEndian)
