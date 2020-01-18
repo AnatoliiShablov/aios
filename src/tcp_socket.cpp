@@ -1,7 +1,3 @@
-//
-// Created by anatolii on 1/17/20.
-//
-
 #include "../include/tcp_socket.h"
 
 aios::tcp_socket::tcp_socket(io_processor &processor, int fd) noexcept

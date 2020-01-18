@@ -32,9 +32,24 @@ void aios::io_processor::remove_fd(int fd,
   epoll_event tmp_ev{};
   tmp_ev.events = 0;
   tmp_ev.data.fd = fd;
-  acceptors.erase(fd);
-  readers.erase(fd);
-  writers.erase(fd);
+  if (auto it = writers.find(fd); it != writers.end()) {
+    if (it->second.waiter.has_value()) {
+      time_proc.remove_timer(it->second.waiter.value());
+    }
+    writers.erase(it);
+  }
+  if (auto it = readers.find(fd); it != readers.end()) {
+    if (it->second.waiter.has_value()) {
+      time_proc.remove_timer(it->second.waiter.value());
+    }
+    readers.erase(it);
+  }
+  if (auto it = acceptors.find(fd); it != acceptors.end()) {
+    if (it->second.waiter.has_value()) {
+      time_proc.remove_timer(it->second.waiter.value());
+    }
+    acceptors.erase(it);
+  }
   if (epoll_ctl(efd, EPOLL_CTL_DEL, fd, &tmp_ev) < 0) {
     ec = aios::system::error_code::cant_del_from_epoll;
   }
