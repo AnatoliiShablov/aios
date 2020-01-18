@@ -198,7 +198,8 @@ void addrinfo_thread() {
         multithread_data.answers.emplace(task.first, "No such host\n");
       } else {
         std::string ans;
-        for (addrinfo *nd = result; nd != nullptr; nd = nd->ai_next)
+        size_t i = 0;
+        for (addrinfo *nd = result; nd != nullptr && i < 5; nd = nd->ai_next)
           ans += aios::ip::address_v4(
                      aios::system::network_to_host(
                          reinterpret_cast<sockaddr_in *>(nd->ai_addr)
