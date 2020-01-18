@@ -29,7 +29,7 @@ public:
       : proc{std::ref(proc)}, acceptors{aios::tcp_acceptor(
                                   proc,
                                   aios::ip::endpoint(
-                                      aios::ip::address_v4::loopback(), 6666),
+                                      aios::ip::address_v4::loopback(), 7666),
                                   ec)},
         sockets{aios::tcp_socket(proc)}, max_used{0} {
     for (size_t i = 0; i < acceptors.size(); ++i) {
@@ -83,7 +83,7 @@ public:
 
   void handle_new_data(size_t id) {
     for (size_t i = read_buffer[id].spos; i < read_buffer[id].fpos; ++i) {
-      if (read_buffer[id].data[i] == '\n' || read_buffer[id].data[i] == '\r') {
+      if (read_buffer[id].data[i] == '\r' && i < buffer_for_client - 1) {
         {
           std::lock_guard<std::mutex> lock(multithread_data.m);
           multithread_data.tasks.emplace(
